@@ -15,9 +15,11 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-cp -r student-submission/src/* grading-area
-
 cd grading-area
+cp -r ../student-submission/* .
+echo 'Finished copying'
+
+
 set +e
 javac -cp $CPATH *.java
 if [ $? -ne 0 ]; then
@@ -25,12 +27,23 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 set -e
+echo 'Finished compiling'
 
-java -cp $CPATH org.junit.runner.JUnitCore TestRunner > test-output.txt
+cd ..
+
+java -cp $CPATH org.junit.runner.JUnitCore TestRunner > output.txt
+
 if [ $? -ne 0 ]; then
-    echo 'Failed to run tests'
+    echo 'Failed to run'
     exit 1
 fi
+
+echo 'Finished grading'
+
+# Again output redirection will be useful, and also tools like grep could be helpful here
+
+grep -E 'Tests run: [0-9]+, Failures: [1-9][0-9]*' output.txt
+
 
 
 # Draw a picture/take notes on the directory structure that's set up after
