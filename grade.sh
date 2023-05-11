@@ -9,13 +9,13 @@ mkdir grading-area
 
 git clone $1 student-submission
 echo 'Finished cloning'
+
 if [ $? -ne 0 ]; then
     echo 'Failed to clone'
     exit 1
 fi
 
 cp -r student-submission/src/* grading-area
-
 
 cd grading-area
 set +e
